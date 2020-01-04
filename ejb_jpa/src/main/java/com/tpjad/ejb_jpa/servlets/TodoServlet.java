@@ -1,28 +1,24 @@
 package com.tpjad.ejb_jpa.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.tpjad.ejb_jpa.beans.todo.TodoManagerBeanLocal;
 import com.tpjad.ejb_jpa.entities.Todo;
 
 public class TodoServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 6918398445243360240L;
 
-	// list that will store the todo list items
-	private List<Todo> todos;
-
-	@Override
-	public void init() throws ServletException {
-		todos = new ArrayList<>();
-	}
+	@EJB
+	private TodoManagerBeanLocal todoManager;
 
 	@Override
 	// returns a web page containing the todo list items
@@ -35,6 +31,8 @@ public class TodoServlet extends HttpServlet {
 		out.println("<body style='text-align:center;'>");
 		out.println("<h3>TODOS</h3>");
 		out.println("<ul style='display:inline-block;'>");
+
+		List<Todo> todos = todoManager.getAll();
 
 		todos.forEach(todo -> {
 			try {
@@ -79,7 +77,9 @@ public class TodoServlet extends HttpServlet {
 	// adds a new item to the todo list
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Todo todo = new Todo("", "");
+		Todo todo = new Todo();
+		todo.setTitle("");
+		todo.setContent("");
 
 		try {
 			todo.setTitle(request.getParameter("title"));
@@ -89,7 +89,7 @@ public class TodoServlet extends HttpServlet {
 		}
 
 		if (validate(todo)) {
-			todos.add(todo);
+			todoManager.persist(todo);
 		}
 
 		doGet(request, response);

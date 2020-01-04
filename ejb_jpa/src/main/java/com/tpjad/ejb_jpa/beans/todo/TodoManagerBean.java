@@ -1,0 +1,11 @@
+package com.tpjad.ejb_jpa.beans.todo;
+
+import java.util.List;
+
+import com.tpjad.ejb_jpa.entities.Todo;
+
+public interface TodoManagerBean {
+	List<Todo> getAll();
+
+	Todo persist(Todo todo);
+}
