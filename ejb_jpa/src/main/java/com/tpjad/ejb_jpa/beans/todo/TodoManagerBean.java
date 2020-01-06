@@ -8,4 +8,6 @@ public interface TodoManagerBean {
 	List<Todo> getAll();
 
 	Todo persist(Todo todo);
+	
+	void deleteById(Integer id);
 }

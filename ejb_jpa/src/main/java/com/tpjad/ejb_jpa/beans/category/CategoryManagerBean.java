@@ -6,4 +6,6 @@ import com.tpjad.ejb_jpa.entities.Category;
 
 public interface CategoryManagerBean {
 	List<Category> getAll();
+	
+	Category getByName(String name);
 }

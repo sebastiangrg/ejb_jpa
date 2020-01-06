@@ -20,4 +20,11 @@ public class CategoryManagerBeanImpl implements CategoryManagerBeanLocal, Catego
 		TypedQuery<Category> query = em.createQuery("SELECT c FROM Category c", Category.class);
 		return query.getResultList();
 	}
+
+	@Override
+	public Category getByName(String name) {
+		TypedQuery<Category> query = em.createQuery("SELECT c FROM Category c WHERE c.name = :name", Category.class);
+		query.setParameter("name", name);
+		return query.getSingleResult();
+	}
 }
