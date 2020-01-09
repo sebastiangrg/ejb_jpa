@@ -1,0 +1,6 @@
+
+jndi_client/gradlew
+
+*.jar
+
+jndi_client/gradle/wrapper/gradle-wrapper.properties
